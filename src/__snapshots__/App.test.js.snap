@@ -11,5 +11,13 @@ exports[`App snapshot matches 1`] = `
   </h1>
   <ListsOverview />
   <TodoList />
+  <footer>
+    This project was inspired by Kevin Powell's 
+    <a
+      href="https://github.com/kevin-powell/todo-list-collab"
+    >
+      todo-list-collab
+    </a>
+  </footer>
 </div>
 `;

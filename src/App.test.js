@@ -23,4 +23,9 @@ describe('App', () => {
 		const wrapper = shallow(<App />)
 		expect(wrapper.find('TodoList')).toExist()
 	})
+
+	it('renders footer', () => {
+		const wrapper = shallow(<App />)
+		expect(wrapper.find('footer')).toContainMatchingElement('a[href="https://github.com/kevin-powell/todo-list-collab"]')
+	})
 })
