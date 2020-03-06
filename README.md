@@ -1,6 +1,6 @@
 # Todo List
 
-A simple todo list app with react.
+A simple todo list app with react. [demo](https://piisfour.github.io/todo-list-react/)
 
 It stores its data in the browsers local storage.
 
