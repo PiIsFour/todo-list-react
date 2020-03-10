@@ -1,69 +1,63 @@
 import * as R from 'ramda'
 import actionType from '../actions/type'
-import { defaultIfEqual } from './util'
+import { keepRefIfNoChange, adjustObjectProp, adjustOnCondition } from './util'
 
 const initialState = []
 
-const addList = (state, id, name) => [
-	...state,
-	{
-		id,
-		name,
-		todos: [],
-	},
-]
+const addList = (id, name) => R.append({
+	id,
+	name,
+	todos: [],
+})
 
-const deleteList = (state, id) => state.filter(todo => todo.id !== id)
+const deleteList = id => R.filter(todo => todo.id !== id)
 
-const addTodo = (state, listId, id, name) => {
-	const index = R.findIndex(({id}) => id === listId, state)
-	if(index === -1) return state
-	return R.adjust(
-		index,
-		todoList => ({
-			...todoList,
-			todos: [...todoList.todos, {id, name, done: false}],
-		}),
-		state,
-	)
-}
+const addTodoInTodos = (id, name) => R.append({id, name, done: false})
 
-const keepRefUpdate = fn => x => R.pipe(fn, defaultIfEqual(x))(x)
+const addTodoInList = (id, name) =>
+	adjustObjectProp('todos', addTodoInTodos(id, name))
 
-const checkTodo = (state, id, done) => keepRefUpdate(R.map(
-	keepRefUpdate((todolist) => ({
-		...todolist,
-		todos: R.map(todo => todo.id === id ? {...todo, done} : todo)(todolist.todos),
-	})),
-))(state)
+const addTodo = (listId, id, name) => adjustOnCondition(
+	({id}) => id === listId,
+	addTodoInList(id, name),
+)
 
-const clearCompletedTodos = (state, fromListId) => {
-	const index = R.findIndex(({id}) => id === fromListId, state)
-	if(index === -1) return state
-	return R.adjust(
-		index,
-		todoList => ({
-			...todoList,
-			todos: todoList.todos.filter(({done}) => !done),
-		}),
-		state,
-	)
-}
+const checkTodoWithId = (id, done) => adjustOnCondition(
+	todo => todo.id === id,
+	R.assoc('done', done),
+)
+
+const checkTodoInList = (id, done) =>
+	adjustObjectProp('todos', checkTodoWithId(id, done))
+
+const checkTodo = (id, done) => keepRefIfNoChange(R.map(
+	checkTodoInList(id, done),
+))
+
+const clearCompletedTodosInTodos = R.filter(({done}) => !done)
+
+const clearCompletedTodosInList =
+	adjustObjectProp('todos', clearCompletedTodosInTodos)
+
+const clearCompletedTodos = fromListId => adjustOnCondition(
+	({id}) => id === fromListId,
+	clearCompletedTodosInList,
+)
 
 const todoListsReducer = (rootState = {}, action = {}) => {
 	const { todoLists: state = initialState } = rootState
 	const { type, id, name, toList, done, fromList } = action
 	switch(type){
 	case actionType.addList:
-		return addList(state, id, name)
+		return addList(id, name)(state)
 	case actionType.deleteList:
-		return deleteList(state, id)
+		return deleteList(id)(state)
 	case actionType.addTodo:
-		return addTodo(state, toList.id, id, name)
+		return addTodo(toList.id, id, name)(state)
 	case actionType.checkTodo:
-		return checkTodo(state, id, done)
+		return checkTodo(id, done)(state)
 	case actionType.clearCompletedTodos:
-		return clearCompletedTodos(state, fromList.id)
+		return clearCompletedTodos(fromList.id)(state)
 	default:
 		return state
 	}
