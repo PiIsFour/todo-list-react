@@ -33,6 +33,7 @@
 		"arrow-spacing": "error",
 		"prefer-const": "error",
 		"react/display-name": 0,
-		"react/prop-types": [1, {"skipUndeclared": true}]
+		"react/prop-types": [1, {"skipUndeclared": true}],
+		"react/no-unused-prop-types": [1]
 	}
 }

@@ -39,6 +39,8 @@ describe('ListsOverview', () => {
 
 	it('shows # of remaining todos if 0', () => {
 		const selectedList = {
+			id: 'some id',
+			name: 'some name',
 			todos: [],
 		}
 		const wrapper = shallow(<TodoListView selectedList={selectedList} />)
@@ -47,10 +49,12 @@ describe('ListsOverview', () => {
 
 	it('shows # of remaining todos if 1', () => {
 		const selectedList = {
+			id: 'some id',
+			name: 'some name',
 			todos: [
-				{done: true, id: 1},
-				{done: true, id: 2},
-				{done: false, id: 3},
+				{done: true, id: '1', name: 'test'},
+				{done: true, id: '2', name: 'test'},
+				{done: false, id: '3', name: 'test'},
 			],
 		}
 		const wrapper = shallow(<TodoListView selectedList={selectedList} />)

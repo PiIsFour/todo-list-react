@@ -10,7 +10,7 @@ describe('ListsOverview', () => {
 		const todoLists = [
 			{name: 'test name', id: 'some id'},
 		]
-		const wrapper = shallow(<ListsOverviewView todoLists={todoLists} />)
+		const wrapper = shallow(<ListsOverviewView todoLists={todoLists} dispatch={() => {}} />)
 		expect(wrapper).toMatchSnapshot()
 	})
 

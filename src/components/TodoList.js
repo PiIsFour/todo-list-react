@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import './TodoList.css'
 
@@ -19,7 +20,6 @@ const renderTodo = dispatchCheckTodo => ({id, name, done}) =>
 			{name}
 		</label>
 	</div>
-
 
 export const TodoListView = ({selectedList, dispatch}) => {
 	if(!selectedList) return null
@@ -45,6 +45,19 @@ export const TodoListView = ({selectedList, dispatch}) => {
 			<button onClick={dispatchDeleteList}>Delete list</button>
 		</footer>
 	</section>
+}
+
+TodoListView.propTypes = {
+	selectedList: PropTypes.shape({
+		id: PropTypes.string.isRequired,
+		name: PropTypes.string.isRequired,
+		todos: PropTypes.arrayOf(PropTypes.shape({
+			id: PropTypes.string.isRequired,
+			name: PropTypes.string.isRequired,
+			done: PropTypes.bool.isRequired,
+		})).isRequired,
+	}),
+	dispatch: PropTypes.func,
 }
 
 export const getSelectedList = ({todoLists, selectedList}) => todoLists.find(({id}) => id === selectedList.id)

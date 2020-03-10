@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import * as R from 'ramda'
 import './ListsOverview.css'
@@ -21,6 +22,15 @@ export const ListsOverviewView = ({todoLists, selectedListId, dispatch}) => {
 		</ul>
 		<AddInput lable="new list name" onAdd={dispatchAddList} />
 	</div>
+}
+
+ListsOverviewView.propTypes = {
+	todoLists: PropTypes.arrayOf(PropTypes.shape({
+		id: PropTypes.string.isRequired,
+		name: PropTypes.string.isRequired,
+	})).isRequired,
+	selectedListId: PropTypes.string,
+	dispatch: PropTypes.func.isRequired,
 }
 
 export const getTodoLists = R.prop('todoLists')
