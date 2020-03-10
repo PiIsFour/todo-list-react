@@ -79,7 +79,7 @@ describe('ListsOverview', () => {
 		}
 		const dispatch = jest.fn()
 		const wrapper = shallow(<TodoListView selectedList={selectedList} dispatch={dispatch} />)
-		wrapper.find('AddInput').prop('onAdd')('new todo name')
+		wrapper.find('AddInput').simulate('add', 'new todo name')
 		expect(dispatch).toHaveBeenCalledWith(
 			addTodoWithId('new todo name', {id: '12345', name: 'test list'}, expect.toBeAUuid()),
 		)

@@ -16,7 +16,7 @@ describe('AddInput', () => {
 		}
 		const wrapper = shallow(<AddInput lable="placeholder text here" onAdd={onAdd} />)
 		wrapper.find('input').simulate('change', { target: { value: 'test input' } })
-		wrapper.find('form').prop('onSubmit')(mockSubmitEvent)
+		wrapper.find('form').simulate('submit', mockSubmitEvent)
 		expect(onAdd).toHaveBeenCalledWith('test input')
 		expect(mockSubmitEvent.preventDefault).toHaveBeenCalled()
 		expect(wrapper.find('input')).toHaveProp('value', '')
