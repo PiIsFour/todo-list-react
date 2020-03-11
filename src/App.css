@@ -31,3 +31,7 @@
   justify-self: center;
   align-self: end;
 }
+
+.App > footer a {
+  color: var(--clr-light);
+}
