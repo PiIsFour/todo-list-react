@@ -22,3 +22,9 @@ export const deleteList = (id, name) => ({
 	id,
 	name,
 })
+
+export const addAndSelectList = name => dispatch => {
+	const addAction = addList(name)
+	dispatch(addAction)
+	dispatch(selectList(addAction.id, name))
+}

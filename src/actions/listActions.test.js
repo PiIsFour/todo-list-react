@@ -1,4 +1,4 @@
-import { addList, addListWithId, addListFactory, selectList, deleteList } from './listActions'
+import { addList, addListWithId, addListFactory, selectList, deleteList, addAndSelectList } from './listActions'
 
 describe('listActions', () => {
 	it('has addListWithId action', () => {
@@ -47,5 +47,15 @@ describe('listActions', () => {
 			name: 'my list',
 			id: 'uuid_5432',
 		})
+	})
+
+	it('has addAndSelectList action', () => {
+		const dispatch = jest.fn()
+		const actionThunk = addAndSelectList('list name here')
+		actionThunk(dispatch)
+		expect(dispatch).toBeCalledTimes(2)
+		expect(dispatch).toHaveBeenNthCalledWith(1, addListWithId('list name here', expect.toBeAUuid()))
+		expect(dispatch).toHaveBeenNthCalledWith(2, selectList(expect.toBeAUuid(), 'list name here'))
+		expect(dispatch.mock.calls[1][0].id).toBe(dispatch.mock.calls[0][0].id)
 	})
 })
