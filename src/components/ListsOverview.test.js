@@ -14,11 +14,14 @@ describe('ListsOverview', () => {
 		expect(wrapper).toMatchSnapshot()
 	})
 
-	it('dispatches a addList action', () => {
+	it('dispatches a addAndSelectList action', () => {
 		const dispatch = jest.fn()
 		const wrapper = shallow(<ListsOverviewView todoLists={[]} dispatch={dispatch} />)
-		wrapper.find('AddInput').prop('onAdd')('my new cool list')
+		wrapper.find('AddInput').simulate('add', 'my new cool list')
+		expect(dispatch).toBeCalledWith(expect.any(Function))
+		dispatch.mock.calls[0][0](dispatch)
 		expect(dispatch).toHaveBeenCalledWith(addListWithId('my new cool list', expect.toBeAUuid()))
+		expect(dispatch).toHaveBeenLastCalledWith(selectList(dispatch.mock.calls[1][0].id, 'my new cool list'))
 	})
 
 	it('dispatches a selectList action', () => {

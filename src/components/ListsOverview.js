@@ -5,10 +5,10 @@ import * as R from 'ramda'
 import './ListsOverview.css'
 
 import AddInput from './AddInput'
-import { addList, selectList } from '../actions/listActions'
+import { addAndSelectList, selectList } from '../actions/listActions'
 
 export const ListsOverviewView = ({todoLists, selectedListId, dispatch}) => {
-	const dispatchAddList = name => dispatch(addList(name))
+	const dispatchAddList = name => dispatch(addAndSelectList(name))
 	const dispatchSelectList = (id, name) => dispatch(selectList(id, name))
 	const renderListItem = ({name, id}) => <li
 		className={id === selectedListId ? 'active' : ''}
