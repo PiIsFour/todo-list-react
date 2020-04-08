@@ -44,9 +44,22 @@ const clearCompletedTodos = fromListId => adjustOnCondition(
 	clearCompletedTodosInList,
 )
 
+const reorderTodo = (from, to) => adjustOnCondition(
+	list => R.any(todo => todo.id === from.id, list.todos),
+	adjustObjectProp('todos', todos => {
+		const toIndex = R.findIndex(todo => todo.id === to.id, todos)
+		const movingItem = R.find(todo => todo.id === from.id, todos)
+		return R.pipe(
+			R.always(todos),
+			R.without([movingItem]),
+			R.insert(toIndex, movingItem),
+		)()
+	}),
+)
+
 const todoListsReducer = (rootState = {}, action = {}) => {
 	const { todoLists: state = initialState } = rootState
-	const { type, id, name, toList, done, fromList } = action
+	const { type, id, name, toList, done, fromList, item, to } = action
 	switch(type){
 	case actionType.addList:
 		return addList(id, name)(state)
@@ -58,6 +71,8 @@ const todoListsReducer = (rootState = {}, action = {}) => {
 		return checkTodo(id, done)(state)
 	case actionType.clearCompletedTodos:
 		return clearCompletedTodos(fromList.id)(state)
+	case actionType.reorderTodo:
+		return reorderTodo(item, to)(state)
 	default:
 		return state
 	}
