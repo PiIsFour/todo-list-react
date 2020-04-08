@@ -16,25 +16,14 @@ exports[`ListsOverview snapshot matches 1`] = `
     <div
       className="todos"
     >
-      <div
-        className="todo"
+      <TodoItem
+        dispatchCheckTodo={[Function]}
+        dispatchReorderTodo={[Function]}
+        done={false}
+        id="42"
         key="42"
-      >
-        <input
-          checked={false}
-          id="42"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <label
-          htmlFor="42"
-        >
-          <span
-            className="custom-checkbox"
-          />
-          hello world
-        </label>
-      </div>
+        name="hello world"
+      />
     </div>
     <AddInput
       lable="new task name"
