@@ -6,15 +6,16 @@ import './ListsOverview.css'
 
 import AddInput from './AddInput'
 import { addAndSelectList, selectList } from '../actions/listActions'
+import ListOverviewItem from './ListOverviewItem'
 
 export const ListsOverviewView = ({todoLists, selectedListId, dispatch}) => {
 	const dispatchAddList = name => dispatch(addAndSelectList(name))
 	const dispatchSelectList = (id, name) => dispatch(selectList(id, name))
-	const renderListItem = ({name, id}) => <li
-		className={id === selectedListId ? 'active' : ''}
-		key={id}
-		onClick={() => dispatchSelectList(id, name)}
-	>{name}</li>
+	const renderListItem = ({name, id}) => <ListOverviewItem
+		id={id} key={id} name={name}
+		isSelected={id === selectedListId}
+		onSelect={dispatchSelectList}
+	/>
 	return <div className="lists-overview">
 		<h2>My lists</h2>
 		<ul>

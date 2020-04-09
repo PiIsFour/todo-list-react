@@ -8,13 +8,13 @@ exports[`ListsOverview snapshot matches 1`] = `
     My lists
   </h2>
   <ul>
-    <li
-      className=""
+    <ListOverviewItem
+      id="some id"
+      isSelected={false}
       key="some id"
-      onClick={[Function]}
-    >
-      test name
-    </li>
+      name="test name"
+      onSelect={[Function]}
+    />
   </ul>
   <AddInput
     lable="new list name"

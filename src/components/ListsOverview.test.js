@@ -28,7 +28,7 @@ describe('ListsOverview', () => {
 		const dispatch = jest.fn()
 		const lists = [{id: 'test id', name: 'test list'}]
 		const wrapper = shallow(<ListsOverviewView todoLists={lists} dispatch={dispatch} />)
-		wrapper.find('li').simulate('click')
+		wrapper.find('ListOverviewItem').simulate('select', 'test id', 'test list')
 		expect(dispatch).toHaveBeenCalledWith(selectList('test id', 'test list'))
 	})
 
@@ -39,8 +39,8 @@ describe('ListsOverview', () => {
 			{id: '42', name: 'Active list'},
 		]
 		const wrapper = shallow(<ListsOverviewView todoLists={lists} selectedListId="42" dispatch={dispatch} />)
-		expect(wrapper.find('ul').childAt(0)).not.toHaveClassName('active')
-		expect(wrapper.find('ul').childAt(1)).toHaveClassName('active')
+		expect(wrapper.find('ul').childAt(0)).toHaveProp({isSelected: false})
+		expect(wrapper.find('ul').childAt(1)).toHaveProp({isSelected: true})
 	})
 
 	it('getTodoLists returns the todo lists', () => {
