@@ -57,6 +57,38 @@ const reorderTodo = (from, to) => adjustOnCondition(
 	}),
 )
 
+const findTodoById = id => R.pipe(
+	R.map(R.pipe(
+		R.prop('todos'),
+		R.find(todo => todo.id === id),
+	)),
+	R.find(todo => !!todo),
+)
+
+const removeTodoFromList = todo => adjustObjectProp('todos',
+	R.filter(({id}) => id !== todo.id),
+)
+
+const addExistingTodoToList = (todo, toListId) => adjustOnCondition(
+	list => list.id === toListId,
+	adjustObjectProp('todos',
+		R.append(todo),
+	),
+)
+
+
+const moveTodoToList = (item, toList) => (state) => {
+	const todo = findTodoById(item.id)(state)
+	if(!todo){
+		return state
+	}
+	return R.pipe(
+		R.always(state),
+		R.map(removeTodoFromList(todo)),
+		addExistingTodoToList(todo, toList.id),
+	)()
+}
+
 const todoListsReducer = (rootState = {}, action = {}) => {
 	const { todoLists: state = initialState } = rootState
 	const { type, id, name, toList, done, fromList, item, to } = action
@@ -73,6 +105,8 @@ const todoListsReducer = (rootState = {}, action = {}) => {
 		return clearCompletedTodos(fromList.id)(state)
 	case actionType.reorderTodo:
 		return reorderTodo(item, to)(state)
+	case actionType.moveTodoToList:
+		return moveTodoToList(item, toList)(state)
 	default:
 		return state
 	}
