@@ -17,8 +17,6 @@ exports[`ListsOverview snapshot matches 1`] = `
       className="todos"
     >
       <TodoItem
-        dispatchCheckTodo={[Function]}
-        dispatchReorderTodo={[Function]}
         done={false}
         id="42"
         key="42"
