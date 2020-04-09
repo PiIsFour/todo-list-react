@@ -9,3 +9,9 @@ export const reorderTodo = (item, to) => ({
 	item,
 	to,
 })
+
+export const moveTodoToList = (item, toList) => ({
+	type: ActionType.moveTodoToList,
+	item,
+	toList,
+})

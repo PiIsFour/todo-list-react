@@ -8,6 +8,7 @@ const actionType = Object.freeze({
 	clearCompletedTodos: 'CLEAR_COMPLETED_TODOS',
 
 	reorderTodo: 'REORDER_TODO',
+	moveTodoToList: 'MOVE_TODO_TO_LIST',
 })
 
 export default actionType
