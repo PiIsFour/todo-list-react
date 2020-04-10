@@ -9,6 +9,7 @@ const actionType = Object.freeze({
 
 	reorderTodo: 'REORDER_TODO',
 	moveTodoToList: 'MOVE_TODO_TO_LIST',
+	reorderTodoList: 'REORDER_TODO_LIST',
 })
 
 export default actionType
